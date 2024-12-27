@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userList } from "./Data";
+import { userList } from "./data";
 
 const userslice = createSlice({
     name: "users",
@@ -7,9 +7,26 @@ const userslice = createSlice({
     reducers: {
         adduser:(state,action)=>{
            state.push(action.payload)
+        },
+        updateUser:(state,action)=> {
+            const{id,name,email}=action.payload;
+            const uu=state.find(user=>user.id == id);
+            if(uu){
+                uu.name=name;
+                uu.email=email;
+            }
+
+        },
+        deleteUser: (state,action)=> {
+            const{id,name,email}=action.payload;
+            const uu=state.find(user=>user.id == id);
+            if (uu){
+                return state.filter(f=>f.id !== id);
+                
+            }
         }
     }
 })
 
-export const {adduser} = userslice.actions;
+export const {adduser,updateUser,deleteUser} = userslice.actions;
 export default userslice.reducer;
